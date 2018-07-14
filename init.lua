@@ -18,6 +18,19 @@ local S = dofile(MP .. "/intllib.lua")
 
 moreblocks.intllib = S
 
+function moreblocks.check_protection(pos, name, tool, text)
+	if minetest.is_protected(pos, name) then
+		minetest.log("action", (name ~= "" and name or "A mod")
+			.. " tried to " .. text
+			.. " at protected position "
+			.. minetest.pos_to_string(pos)
+			.. " with a " .. (tool or ""))
+		minetest.record_protection_violation(pos, name)
+		return true
+	end
+	return false
+end
+
 -- Load mod's modules
 dofile(MP .. "/config.lua")
 dofile(MP .. "/circular_saw.lua")
